@@ -1,4 +1,4 @@
-name: .NET
+name: products-service
 
 on:
   push:
