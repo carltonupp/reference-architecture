@@ -9,6 +9,7 @@ namespace Products.Domain.Products
         private string _productCode;
         private Guid _category;
         private decimal _sell;
+        private decimal _cost;
 
         public Product(string name, string description, string productCode, Guid category, decimal cost, decimal sell)
         {
@@ -70,18 +71,45 @@ namespace Products.Domain.Products
             }
         }
 
-        public decimal Cost { get; private set; }
+        public decimal Cost
+        {
+            get => _cost;
+            private set
+            {
+                _cost = value switch
+                {
+                    < 0 => throw new Exception("Cost Price cannot be a negative value"),
+                    _ => value
+                };
+            }
+        }
 
         public decimal Sell
         {
             get => _sell;
             private set
             {
-                if (value < Cost)
-                    throw new Exception("Sell Price cannot be less than cost");
-
-                _sell = value;
+                _sell = value switch
+                {
+                    _ when value < Cost => throw new Exception("Sell Price cannot be less than cost"),
+                    < 0 => throw new Exception("Sell Price cannot be a negative value"),
+                    _ => value
+                };
             }
+        }
+
+        public void AdjustCost(decimal cost)
+        {
+            Cost = cost switch
+            {
+                _ when cost > Sell => throw new Exception("Cost Price cannot be more than Sell Price"),
+                _ => cost
+            };
+        }
+
+        public void AdjustSell(decimal sell)
+        {
+            Sell = sell;
         }
     }
 }

@@ -65,6 +65,18 @@ namespace Products.Domain.Tests.Products
         }
 
         [Fact]
+        public void ThrowsExceptionGivenNegativeCostPrice()
+        {
+            Assert.Throws<Exception>(() =>
+            {
+                var product = new Product(
+                    "Halfords Essentials Downtube Mudguard 2018",
+                    "The Halfords Essentials Downtube Mudguard  is for 20\" to 27.5\" wheels and fits by straps to the downtube of the frame. We also offer a wide selection of other cycle parts. Halfords offer a fantastic range of Bike Parts and Bike Accessories at competitive prices!",
+                    "537156", Guid.NewGuid(), -2.50m, 2.00m);
+            });
+        }
+
+        [Fact]
         public void ThrowsExceptionGivenSellLessThanCost()
         {
             Assert.Throws<Exception>(() =>
@@ -73,6 +85,18 @@ namespace Products.Domain.Tests.Products
                     "Halfords Essentials Downtube Mudguard 2018",
                     "The Halfords Essentials Downtube Mudguard  is for 20\" to 27.5\" wheels and fits by straps to the downtube of the frame. We also offer a wide selection of other cycle parts. Halfords offer a fantastic range of Bike Parts and Bike Accessories at competitive prices!",
                     "537156", Guid.NewGuid(), 2.50m, 2.00m);
+            });
+        }
+
+        [Fact]
+        public void ThrowsExceptionGivenNegativeSellPrice()
+        {
+            Assert.Throws<Exception>(() =>
+            {
+                var product = new Product(
+                    "Halfords Essentials Downtube Mudguard 2018",
+                    "The Halfords Essentials Downtube Mudguard  is for 20\" to 27.5\" wheels and fits by straps to the downtube of the frame. We also offer a wide selection of other cycle parts. Halfords offer a fantastic range of Bike Parts and Bike Accessories at competitive prices!",
+                    "537156", Guid.NewGuid(), -2.50m, -2.00m);
             });
         }
     }
