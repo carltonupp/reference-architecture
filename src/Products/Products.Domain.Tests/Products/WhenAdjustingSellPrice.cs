@@ -28,5 +28,14 @@ namespace Products.Domain.Tests.Products
                 _fixture.Product.AdjustSell(1.00m);
             });
         }
+
+        [Fact]
+        public void ThrowsExceptionGivenValueLessThanZero()
+        {
+            Assert.Throws<Exception>(() =>
+            {
+                _fixture.Product.AdjustSell(-1.00m);
+            });
+        }
     }
 }
