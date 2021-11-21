@@ -10,6 +10,7 @@ namespace Products.Domain.Products
         private Guid _category;
         private decimal _sell;
         private decimal _cost;
+        private Guid _productId;
 
         public Product(string name, string description, string productCode, Guid category, decimal cost, decimal sell)
         {
@@ -21,7 +22,23 @@ namespace Products.Domain.Products
             Sell = sell;
         }
 
-        public Guid ProductId { get; set; }
+        private Product(Guid productId, string name, string description, string productCode, Guid category,
+            decimal cost, decimal sell) : this(name, description, productCode, category, cost, sell)
+        {
+            ProductId = productId;
+        }
+
+        public Guid ProductId
+        {
+            get => _productId;
+            private set
+            {
+                if (value == Guid.Empty)
+                    throw new Exception("Product ID cannot be empty");
+
+                _productId = value;
+            }
+        }
 
         public string Name
         {
@@ -69,6 +86,12 @@ namespace Products.Domain.Products
 
                 _category = value;
             }
+        }
+
+        public static Product Create(string name, string description, string productCode, Guid category, decimal cost, decimal sell)
+        {
+            var productId = Guid.NewGuid();
+            return new Product(productId, name, description, productCode, category, cost, sell);
         }
 
         public decimal Cost

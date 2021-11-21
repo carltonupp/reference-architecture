@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 using Products.Application.Interfaces.Persistence;
+using Products.Domain.Products;
 
 namespace Products.Application.Products.Commands.CreateProduct
 {
@@ -21,7 +21,12 @@ namespace Products.Application.Products.Commands.CreateProduct
         public async Task<ProductCreatedResponse> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             await _validator.ValidateAndThrowAsync(request, cancellationToken);
-            var productId = await _repository.Create();
+
+            var product = Product.Create(request.Name, request.Description, 
+                request.ProductCode, request.Category,
+                    request.Cost, request.Sell);
+            
+            var productId = await _repository.Create(product);
             return new ProductCreatedResponse(productId);
         }
     }
