@@ -34,7 +34,7 @@ namespace Products.Service
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Products.Service", Version = "v1" });
             });
             services.RegisterApplicationLayer();
-            services.RegisterRepositories();
+            services.RegisterPersistence(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

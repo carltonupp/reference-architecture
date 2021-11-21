@@ -23,7 +23,7 @@ namespace Products.Application.Products.Commands.CreateProduct
             await _validator.ValidateAndThrowAsync(request, cancellationToken);
 
             var product = Product.Create(request.Name, request.Description, 
-                request.ProductCode, request.Category,
+                request.ProductCode,
                     request.Cost, request.Sell);
             
             var productId = await _repository.Create(product);

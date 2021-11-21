@@ -7,23 +7,21 @@ namespace Products.Domain.Products
         private string _name;
         private string _description;
         private string _productCode;
-        private Guid _category;
         private decimal _sell;
         private decimal _cost;
         private Guid _productId;
 
-        public Product(string name, string description, string productCode, Guid category, decimal cost, decimal sell)
+        public Product(string name, string description, string productCode, decimal cost, decimal sell)
         {
             Name = name;
             Description = description;
             ProductCode = productCode;
-            Category = category;
             Cost = cost;
             Sell = sell;
         }
 
-        private Product(Guid productId, string name, string description, string productCode, Guid category,
-            decimal cost, decimal sell) : this(name, description, productCode, category, cost, sell)
+        private Product(Guid productId, string name, string description, string productCode,
+            decimal cost, decimal sell) : this(name, description, productCode, cost, sell)
         {
             ProductId = productId;
         }
@@ -76,22 +74,10 @@ namespace Products.Domain.Products
             }
         }
 
-        public Guid Category
-        {
-            get => _category;
-            private set
-            {
-                if (value == Guid.Empty)
-                    throw new Exception("Category ID cannot be empty");
-
-                _category = value;
-            }
-        }
-
-        public static Product Create(string name, string description, string productCode, Guid category, decimal cost, decimal sell)
+        public static Product Create(string name, string description, string productCode, decimal cost, decimal sell)
         {
             var productId = Guid.NewGuid();
-            return new Product(productId, name, description, productCode, category, cost, sell);
+            return new Product(productId, name, description, productCode, cost, sell);
         }
 
         public decimal Cost
